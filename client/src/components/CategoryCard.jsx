@@ -1,4 +1,4 @@
-import { formatDuration, formatTimer } from '../utils/formatTime'
+import { formatHours, formatTimer, formatLastPlayed } from '../utils/formatTime'
 import { useTimer } from '../hooks/useTimer'
 
 export default function CategoryCard({
@@ -9,128 +9,109 @@ export default function CategoryCard({
   onStart,
   onFinish,
   isLoading,
+  lastPlayed,
 }) {
   const isProgramming = category === 'programming'
   const elapsed = useTimer(activeSession?.startedAt)
   const isActive = !!activeSession
 
-  const label = isProgramming ? 'PROGRAMMING' : 'LANGUAGE'
+  const label = isProgramming ? 'Programming' : 'Language Learning'
   const icon = isProgramming ? '💻' : '🌍'
+  const accentColor = isProgramming ? '#66c0f4' : '#b388ff'
+
+  const hoursDisplay = formatHours(totalSeconds)
 
   return (
     <div
-      className={`
-        relative rounded-2xl border overflow-hidden
-        transition-all duration-500 ease-out
-        ${isActive
-          ? isProgramming
-            ? 'border-blue-500/40 shadow-[0_0_40px_-12px_rgba(59,130,246,0.3)] bg-gradient-to-b from-blue-950/40 to-slate-900/90'
-            : 'border-violet-500/40 shadow-[0_0_40px_-12px_rgba(139,92,246,0.3)] bg-gradient-to-b from-violet-950/40 to-slate-900/90'
-          : isProgramming
-            ? 'border-slate-700/40 bg-gradient-to-b from-slate-900/90 to-slate-900/60 hover:border-blue-500/20'
-            : 'border-slate-700/40 bg-gradient-to-b from-slate-900/90 to-slate-900/60 hover:border-violet-500/20'
-        }
-        backdrop-blur-sm p-8 md:p-10
-      `}
+      className={`steam-game-entry rounded-sm p-4 ${isActive ? 'steam-active-glow' : ''}`}
     >
-      {/* Active indicator */}
-      {isActive && (
-        <div className="absolute top-5 right-5 flex items-center gap-2">
-          <span
-            className={`
-              inline-block w-2 h-2 rounded-full animate-pulse
-              ${isProgramming ? 'bg-blue-400' : 'bg-violet-400'}
-            `}
-          />
-          <span className="text-[11px] text-slate-400 uppercase tracking-widest font-medium">
-            Active
-          </span>
-        </div>
-      )}
-
-      {/* Category label */}
-      <div className="flex items-center gap-3 mb-8">
-        <span className="text-2xl">{icon}</span>
-        <h2
-          className={`
-            text-xs font-bold tracking-[0.25em] uppercase
-            ${isProgramming ? 'text-blue-400' : 'text-violet-400'}
-          `}
+      <div className="flex gap-4">
+        {/* Game icon / banner */}
+        <div
+          className="flex-shrink-0 w-[120px] h-[45px] rounded-sm flex items-center justify-center text-2xl"
+          style={{
+            background: isProgramming
+              ? 'linear-gradient(135deg, #1a3a5c 0%, #0d2137 100%)'
+              : 'linear-gradient(135deg, #3d1a5c 0%, #1f0d37 100%)',
+          }}
         >
-          {label}
-        </h2>
-      </div>
+          <span className="drop-shadow-lg">{icon}</span>
+        </div>
 
-      {/* Time display */}
-      <div className="text-center mb-10">
-        {isActive ? (
-          <div
-            className={`
-              text-5xl sm:text-6xl md:text-7xl font-bold tabular-nums tracking-tight
-              ${isProgramming ? 'text-blue-200' : 'text-violet-200'}
-            `}
-          >
-            {formatTimer(elapsed)}
-          </div>
-        ) : (
-          <>
-            <div
-              className={`
-                text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight
-                ${totalSeconds > 0
-                  ? isProgramming
-                    ? 'text-blue-50'
-                    : 'text-violet-50'
-                  : 'text-slate-500'
-                }
-              `}
+        {/* Details */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-3">
+            <h3
+              className="text-sm font-medium truncate"
+              style={{ color: '#c7d5e0' }}
             >
-              {formatDuration(totalSeconds)}
+              {label}
+            </h3>
+            <div className="flex-shrink-0 text-right">
+              <div className="text-xs" style={{ color: '#8f98a0' }}>
+                {hoursDisplay} hrs on record
+              </div>
+              {!isActive && (
+                <div className="text-xs" style={{ color: '#8f98a0' }}>
+                  last played on {formatLastPlayed(lastPlayed)}
+                </div>
+              )}
             </div>
-            <p className="text-slate-500 text-sm mt-3 tracking-wide">
-              {totalSeconds > 0 ? 'hours on record' : 'no sessions yet'}
-            </p>
-          </>
-        )}
+          </div>
+
+          {/* Active timer */}
+          {isActive && (
+            <div className="mt-2 flex items-center gap-3">
+              <div className="flex items-center gap-1.5">
+                <span
+                  className="inline-block w-2 h-2 rounded-full steam-pulse"
+                  style={{ backgroundColor: '#57cbde' }}
+                />
+                <span
+                  className="text-xs font-medium tabular-nums"
+                  style={{ color: '#57cbde' }}
+                >
+                  {formatTimer(elapsed)}
+                </span>
+              </div>
+            </div>
+          )}
+
+          {/* Achievement progress bar (decorative, represents total time) */}
+          <div className="mt-2.5 flex items-center gap-2">
+            <span className="text-[11px]" style={{ color: '#8f98a0' }}>
+              Progress
+            </span>
+            <div className="steam-progress-bar flex-1">
+              <div
+                className="steam-progress-fill"
+                style={{
+                  width: `${Math.min(100, (totalSeconds / (3600 * 100)) * 100)}%`,
+                  background: accentColor,
+                }}
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Action button */}
-      <div className="flex justify-center">
+      {/* Action button row */}
+      <div className="mt-3 flex justify-end">
         {isActive ? (
           <button
             onClick={onFinish}
             disabled={isLoading}
-            className={`
-              px-10 py-3.5 rounded-xl font-semibold text-sm tracking-wider uppercase
-              transition-all duration-200 cursor-pointer
-              ${isProgramming
-                ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20'
-                : 'bg-violet-600 hover:bg-violet-500 text-white shadow-lg shadow-violet-600/20'
-              }
-              disabled:opacity-50 disabled:cursor-not-allowed
-              active:scale-[0.97]
-            `}
+            className="steam-btn steam-btn-finish"
           >
-            {isLoading ? 'Saving...' : 'Finish'}
+            {isLoading ? 'Saving...' : '■ Stop Session'}
           </button>
         ) : (
           <button
             onClick={onStart}
             disabled={isOtherActive || isLoading}
-            className={`
-              px-10 py-3.5 rounded-xl font-semibold text-sm tracking-wider uppercase
-              transition-all duration-200 cursor-pointer
-              ${isOtherActive
-                ? 'bg-slate-800/60 text-slate-600 cursor-not-allowed border border-slate-700/30'
-                : isProgramming
-                  ? 'bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 border border-blue-500/25 hover:border-blue-400/40 hover:shadow-lg hover:shadow-blue-500/10'
-                  : 'bg-violet-500/10 hover:bg-violet-500/20 text-violet-300 border border-violet-500/25 hover:border-violet-400/40 hover:shadow-lg hover:shadow-violet-500/10'
-              }
-              disabled:opacity-50 disabled:cursor-not-allowed
-              active:scale-[0.97]
-            `}
+            className="steam-btn"
           >
-            {isLoading ? 'Starting...' : 'Start'}
+            {isLoading ? 'Starting...' : '▶ Start Session'}
           </button>
         )}
       </div>

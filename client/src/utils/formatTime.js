@@ -20,6 +20,17 @@ export function formatDuration(totalSeconds) {
 }
 
 /**
+ * Format seconds into decimal hours for Steam-like display.
+ * Examples: 0 → "0", 3600 → "1.0", 5400 → "1.5", 360 → "0.1"
+ */
+export function formatHours(totalSeconds) {
+  if (!totalSeconds || totalSeconds <= 0) return '0'
+  const hours = totalSeconds / 3600
+  if (hours >= 10) return Math.round(hours).toString()
+  return hours.toFixed(1)
+}
+
+/**
  * Format seconds into HH:MM:SS for live timer display.
  * Examples: 0 → "00:00:00", 8077 → "02:14:37"
  */
@@ -33,4 +44,26 @@ export function formatTimer(totalSeconds) {
   return [hours, minutes, seconds]
     .map((v) => String(v).padStart(2, '0'))
     .join(':')
+}
+
+/**
+ * Format an ISO date string into a "last played" display like Steam.
+ * Examples: "2026-08-10T..." → "10 Aug", "2026-01-05T..." → "5 Jan"
+ */
+export function formatLastPlayed(isoString) {
+  if (!isoString) return 'never'
+  const date = new Date(isoString)
+  const day = date.getDate()
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  return `${day} ${months[date.getMonth()]}`
+}
+
+/**
+ * Calculate a "level" from total seconds, like Steam's level system.
+ * Every 5 hours = 1 level, min level 1.
+ */
+export function calculateLevel(totalSeconds) {
+  if (!totalSeconds || totalSeconds <= 0) return 1
+  return Math.max(1, Math.floor(totalSeconds / (3600 * 5)) + 1)
 }

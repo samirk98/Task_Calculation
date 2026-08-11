@@ -9,10 +9,10 @@ function ProtectedRoute({ children }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#1b2838' }}>
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-2 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
-          <p className="text-slate-400 text-sm">Loading...</p>
+          <div className="w-8 h-8 border-2 rounded-full animate-spin" style={{ borderColor: 'rgba(102, 192, 244, 0.3)', borderTopColor: '#66c0f4' }} />
+          <p className="text-sm" style={{ color: '#8f98a0' }}>Loading...</p>
         </div>
       </div>
     )
@@ -30,10 +30,10 @@ function PublicRoute({ children }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#1b2838' }}>
         <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-2 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
-          <p className="text-slate-400 text-sm">Loading...</p>
+          <div className="w-8 h-8 border-2 rounded-full animate-spin" style={{ borderColor: 'rgba(102, 192, 244, 0.3)', borderTopColor: '#66c0f4' }} />
+          <p className="text-sm" style={{ color: '#8f98a0' }}>Loading...</p>
         </div>
       </div>
     )

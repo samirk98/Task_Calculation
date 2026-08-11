@@ -1,10 +1,25 @@
 @import "tailwindcss";
 
 /* ========================================
-   Custom Theme — Tailwind v4 CSS-first
+   Steam Profile Theme — Tailwind v4 CSS-first
    ======================================== */
 @theme {
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Steam color palette */
+  --color-steam-darkest: #171a21;
+  --color-steam-dark: #1b2838;
+  --color-steam-mid: #2a475e;
+  --color-steam-border: #2a475e;
+  --color-steam-highlight: #3d6c8e;
+  --color-steam-blue: #1a9fff;
+  --color-steam-blue-light: #66c0f4;
+  --color-steam-text: #c7d5e0;
+  --color-steam-text-muted: #8f98a0;
+  --color-steam-online: #57cbde;
+  --color-steam-green: #4c6b22;
+  --color-steam-card: #16202d;
+  --color-steam-card-hover: #1e3148;
 }
 
 /* ========================================
@@ -12,33 +27,144 @@
    ======================================== */
 body {
   font-family: var(--font-sans);
-  background-color: #020617;
-  color: #e2e8f0;
+  background-color: var(--color-steam-dark);
+  color: var(--color-steam-text);
   margin: 0;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scrollbar styling for dark theme */
+/* Scrollbar styling for Steam theme */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: var(--color-steam-darkest);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: var(--color-steam-mid);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: var(--color-steam-highlight);
 }
 
 /* Tabular nums for timer display */
 .tabular-nums {
   font-variant-numeric: tabular-nums;
+}
+
+/* Steam-style section header */
+.steam-section-header {
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-steam-mid);
+  margin-bottom: 12px;
+}
+
+/* Steam progress bar */
+.steam-progress-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.steam-progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.6s ease;
+}
+
+/* Steam game entry hover */
+.steam-game-entry {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.steam-game-entry:hover {
+  background: rgba(0, 0, 0, 0.35);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Steam button styles */
+.steam-btn {
+  background: linear-gradient(to right, #47bfff 5%, #1a44c2 60%);
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 2px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.steam-btn:hover {
+  background: linear-gradient(to right, #6fd4ff 5%, #2d5fe0 60%);
+}
+
+.steam-btn-finish {
+  background: linear-gradient(to right, #ff6b47 5%, #c21a1a 60%);
+}
+
+.steam-btn-finish:hover {
+  background: linear-gradient(to right, #ff9470 5%, #e03030 60%);
+}
+
+.steam-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Pulsing active indicator */
+@keyframes steam-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.steam-pulse {
+  animation: steam-pulse 2s ease-in-out infinite;
+}
+
+/* Glow for active sessions */
+.steam-active-glow {
+  box-shadow: 0 0 20px rgba(87, 203, 222, 0.15), inset 0 0 20px rgba(87, 203, 222, 0.05);
+  border-color: rgba(87, 203, 222, 0.3) !important;
+}
+
+/* Steam sidebar item */
+.steam-sidebar-item {
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.15s ease;
+}
+
+.steam-sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* Level badge */
+.steam-level-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--color-steam-blue-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-steam-blue-light);
+  background: rgba(102, 192, 244, 0.1);
 }

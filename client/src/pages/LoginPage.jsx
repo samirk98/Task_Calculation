@@ -26,7 +26,10 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
+    <div
+      className="min-h-screen flex items-center justify-center p-4"
+      style={{ backgroundColor: '#1b2838' }}
+    >
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
@@ -34,16 +37,30 @@ export default function LoginPage() {
           <h1 className="text-3xl font-bold text-white mb-2">
             Learning Tracker
           </h1>
-          <p className="text-slate-400">Track your growth. Stay motivated.</p>
+          <p style={{ color: '#8f98a0' }}>Track your growth. Stay motivated.</p>
         </div>
 
         {/* Card */}
-        <div className="bg-slate-900/80 border border-slate-700/40 rounded-2xl p-8 backdrop-blur-sm">
+        <div
+          className="rounded-sm p-8"
+          style={{
+            backgroundColor: '#171a21',
+            border: '1px solid #2a475e',
+          }}
+        >
           <h2 className="text-xl font-semibold text-white mb-6">Sign In</h2>
 
           {error && (
-            <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3 mb-5">
-              <p className="text-red-400 text-sm">{error}</p>
+            <div
+              className="rounded-sm p-3 mb-5"
+              style={{
+                background: 'rgba(255, 70, 70, 0.1)',
+                border: '1px solid rgba(255, 70, 70, 0.2)',
+              }}
+            >
+              <p className="text-sm" style={{ color: '#ff6b6b' }}>
+                {error}
+              </p>
             </div>
           )}
 
@@ -51,7 +68,8 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor="login-email"
-                className="block text-sm font-medium text-slate-300 mb-1.5"
+                className="block text-sm font-medium mb-1.5"
+                style={{ color: '#c7d5e0' }}
               >
                 Email
               </label>
@@ -61,7 +79,20 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-3 rounded-xl bg-slate-800/80 border border-slate-600/40 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-colors"
+                className="w-full px-4 py-3 rounded-sm text-white transition-colors focus:outline-none"
+                style={{
+                  backgroundColor: '#2a475e',
+                  border: '1px solid #3d6c8e',
+                  color: '#c7d5e0',
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#66c0f4'
+                  e.target.style.boxShadow = '0 0 5px rgba(102, 192, 244, 0.2)'
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#3d6c8e'
+                  e.target.style.boxShadow = 'none'
+                }}
                 placeholder="you@example.com"
               />
             </div>
@@ -69,7 +100,8 @@ export default function LoginPage() {
             <div>
               <label
                 htmlFor="login-password"
-                className="block text-sm font-medium text-slate-300 mb-1.5"
+                className="block text-sm font-medium mb-1.5"
+                style={{ color: '#c7d5e0' }}
               >
                 Password
               </label>
@@ -79,7 +111,20 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full px-4 py-3 rounded-xl bg-slate-800/80 border border-slate-600/40 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-colors"
+                className="w-full px-4 py-3 rounded-sm text-white transition-colors focus:outline-none"
+                style={{
+                  backgroundColor: '#2a475e',
+                  border: '1px solid #3d6c8e',
+                  color: '#c7d5e0',
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#66c0f4'
+                  e.target.style.boxShadow = '0 0 5px rgba(102, 192, 244, 0.2)'
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#3d6c8e'
+                  e.target.style.boxShadow = 'none'
+                }}
                 placeholder="••••••••"
               />
             </div>
@@ -87,17 +132,29 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer active:scale-[0.98]"
+              className="w-full py-3 rounded-sm text-white font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer active:scale-[0.98]"
+              style={{
+                background: 'linear-gradient(to right, #47bfff 5%, #1a44c2 60%)',
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.background =
+                  'linear-gradient(to right, #6fd4ff 5%, #2d5fe0 60%)'
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background =
+                  'linear-gradient(to right, #47bfff 5%, #1a44c2 60%)'
+              }}
             >
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
 
-          <p className="text-slate-400 text-sm text-center mt-6">
+          <p className="text-sm text-center mt-6" style={{ color: '#8f98a0' }}>
             Don&apos;t have an account?{' '}
             <Link
               to="/register"
-              className="text-blue-400 hover:text-blue-300 transition-colors font-medium"
+              className="font-medium transition-colors hover:underline"
+              style={{ color: '#66c0f4' }}
             >
               Create one
             </Link>
