@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int              @id @default(autoincrement())
+  email     String           @unique
+  password  String
+  createdAt DateTime         @default(now())
+  sessions  LearningSession[]
+}
+
+model LearningSession {
+  id         Int       @id @default(autoincrement())
+  userId     Int
+  category   String
+  startedAt  DateTime
+  finishedAt DateTime?
+  duration   Int?
+  createdAt  DateTime  @default(now())
+  user       User      @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([userId, category])
+}
